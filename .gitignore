@@ -1,0 +1,8 @@
+*.pyc
+__pycache__
+project-venv
+db.postgresql
+/static
+.DS_Store
+migrations
+__init__

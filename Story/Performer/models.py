@@ -19,4 +19,4 @@ class Product(models.Model):
     stock = models.CharField(max_length=25, default='В наявності')
 
     def get_absolute_url(self):
-        return 
+        return
