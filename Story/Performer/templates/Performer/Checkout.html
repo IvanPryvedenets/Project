@@ -1,0 +1,138 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<div class="checkout-content-wrapper">
+
+    <h1 class="title">Оформлення замовлення</h1>
+
+    <div class="checkout-content">
+
+        <form class="checkout-form" action="" method="POST">{% csrf_token %}
+
+            <div class="checkout-forms">
+                <h4 class="title">Контактна інформація</h4>
+
+
+                    <label>Ваше ім'я</label>
+                    {{ form.buyer_name }}
+                    <br>
+
+                    <label>Ваше прізвище</label>
+                    {{ form.buyer_lastname }}
+                    <br>
+
+                    {% if error %}
+                        <div class="alert alert-danger">{{ error }}</div>
+                    {% endif %}
+
+                    {% if tel_error %}
+                        <div class="alert alert-danger">{{ tel_error }}</div>
+                    {% endif %}
+
+                    <label>Ваш телефон</label>
+                    {{ form.buyer_tel }}
+                    <br>
+
+                    {% if email_error %}
+                        <div class="alert alert-danger">{{ email_error }}</div>
+                    {% endif %}
+
+                    <label>Ваше Email</label>
+                    {{ form.buyer_email }}
+                    <br>
+
+                    <label>Спосіб оплати</label>
+                    {{ form.pay_way }}
+                    <br>
+                    <br>
+
+                    <h4 class="title">Інформація про доставку</h4>
+                    <label>Спосіб доставки</label>
+                    {{ form.transporter }}
+                    <br>
+
+                    <label>Область</label>
+                    {{ form.area }}
+                    <br>
+
+                    <label>Місто</label>
+                    {{ form.city }}
+                    <br>
+
+                    <label>Поштове відділення</label>
+                    {{ form.department }}
+                    <br>
+
+                    <label>Побажання</label>
+                    {{ form.wish }}
+                    <br>
+
+            </div>
+
+
+            <div class="checkout-baskets-content-wrapper">
+                <h4 class="title">Ваше замовлення</h4>
+
+                <table class="cart-table">
+                    <tr>
+                        <td>Назва товару</td>
+                        <td>Ціна товару</td>
+                        <td>Кількість</td>
+                        <td>Загальна ціна</td>
+                    </tr>
+                </table>
+
+                <div class="checkout-baskets-content">
+
+                    {% for basket in product_baskets %}
+                        <div class="checkout-basket">
+                            <a href="{{ basket.product.get_absolute_url }}"><h6 class="title">{{ basket.title }}</h6></a>
+                            <div class="checkout-price">{{ basket.price }} грн</div>
+                            <div class="checkout-number">{{ basket.number }}</div>
+                            <div class="checkout-total_price">{{ basket.total_price }} грн</div>
+                        </div>
+                    {% endfor %}
+
+                </div>
+
+
+                <div class="total_information">
+                    <div class="sum-of-products"><span>Кількість продуктів:</span> {{ sum_of_products }}</div>
+                    <div class="sun-of-weight"><span>Загальна вага:</span> {{ sum_of_weight }} g</div>
+                    <br>
+                    <div class="to-pay"><span>До оплати:</span> {{ sum_of_price }} грн</div>
+                </div>
+
+            </div>
+
+            {% if not user.is_authenticated %}
+
+                <div class="create-user-forms-wrapper">
+                    <span>Створити користувача</span><input class="create-user-checkbox" type="checkbox">
+                    <div class="create-user-forms">
+
+                        <p>Кабінет користувача дозволить вам
+                            передивлятись ваші замовлення та їх статус,
+                            полегшить процес оформлення наступних замовлень та
+                            надсилання коментарів, дасть можливість отримувати
+                            розсилку про нові акції, надходження
+                            та спеціальні пропозиції.
+                        </p>
+
+                    </div>
+                </div>
+            {% endif %}
+
+            <button class="btn btn-primary" id="checkout-submit" type="submit">Підтвердити замовлення</button>
+
+        </form>
+
+    </div>
+
+    <div class="user-form">
+        {{ password_form.as_p }}
+    </div>
+
+</div>
+{% endblock %}

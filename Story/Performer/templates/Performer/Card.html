@@ -1,11 +1,35 @@
 {% for product in products %}
-    <div class="card" style="width: 18rem;">
+    <div class="card">
 
-        <img src="{{ product.image.url }}" class="card-img-top" alt="...">
+        <a href="{{ product.get_absolute_url }}"><img src="{{ product.image.url }}" class="card-img-top" alt="..."></a>
 
         <div class="card-body">
+
             <h5 class="card-title">{{ product.title }}</h5>
-            <a href="#" class="btn btn-primary">Go somewhere</a>
+
+            <p class="card-stock">{{ product.stock }}</p>
+
+            <div class="card-price">{{ product.price }} грн</div>
+
+
+            {% if product.old_price > 1 %}
+                <div class="card-old_price"><strike>{{ product.old_price }} грн</strike></div>
+            {% endif %}
+
+
+            {% if product.stock == 'В наявності' %}
+                <form class="add-product-to-basket" method="POST" action="{% url 'JqueryWorker' %}">{% csrf_token %}
+                    <button id="btn-primary" class="btn btn-primary" type="submit"
+                            data-product_id="{{ product.id }}"
+                            data-product_title="{{ product.title }}"
+                            data-product_image="{{ product.image.url }}"
+                            data-product_price="{{ product.price }}"
+                    >В корзину</button>
+                </form>
+            {% else %}
+                <a class="btn btn-outline-secondary" style="position: relative; left: 20%; top: 30px;">Товар відсутній</a>
+            {% endif %}
+
         </div>
 
     </div>

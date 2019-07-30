@@ -1,8 +1,9 @@
 *.pyc
+.gitignore
 __pycache__
 project-venv
 db.postgresql
-/static
 .DS_Store
 migrations
 __init__
+Story/Story/

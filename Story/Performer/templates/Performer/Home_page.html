@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="content-block">
+        <h1 class="home-page-title">Al dente</h1>
+        <h1 class="title">Гарячі ціни</h1>
+        <div class="home-page-product-container">
+            {% include 'Performer/Card.html' %}
+        </div>
+    </div>
+
+    <h1 class="title">Набирають популярності</h1>
+    <div class="home-page-product-container">
+            {% include 'Performer/Card.html' %}
+    </div>
+{% endblock %}

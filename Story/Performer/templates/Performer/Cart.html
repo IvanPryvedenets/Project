@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="cart-content-wrapper">
+
+    <h1 class="title">Ваш кошик</h1>
+
+    <div class="cart-content">
+        {% if product_baskets %}
+            <table class="cart-table">
+                <tr>
+                    <td>Картинка</td>
+                    <td>Назва товару</td>
+                    <td>Ціна товару</td>
+                    <td>Кількість</td>
+                    <td>Загальна ціна</td>
+                </tr>
+            </table>
+        {% endif %}
+
+        <form class="cart-form" action="{% url 'JqueryWorker' %}" method="POST">{% csrf_token %}
+            <div class="cart-product-wrapper">
+                {% if baskets %}
+                    {% for basket in product_baskets %}
+                            <div class="cart-product">
+                                <span class="delete-selected-product" data-product_id="{{ basket.id_product }}">&#215;</span>
+                                <img class="cart-product-image" src="{{ basket.image }}">
+                                <div class="cart-product-title"><h4 class="title>"><a href="{{ basket.product.get_absolute_url }}">{{ basket.title }}</a></h4></div>
+                                <div class="cart-product-price">{{ basket.price }} грн</div>
+                                <input id="form-control" class="form-control" type="number" value="{{ basket.number }}" min="1">
+                                <div class="cart-product-total_price">{{ basket.total_price }} грн</div>
+                            </div>
+                    {% endfor %}
+                {% else %}
+                    <h6 class="title" style="position: relative; width: 100%; margin: 5px 0 5px 0; text-align: center; top: -5px; left: 0;">Кошик порожній</h6>
+                {% endif %}
+            </div>
+        </form>
+
+        {% if product_baskets %}
+            <div class="transition-to-checkout">
+                <div class="cart-total-price">
+                    <span>Загалом: {{ sum_of_price }}</span>
+                </div>
+
+                <div class="cart-buttons">
+                    <a href="{% url 'Checkout_url' %}"><button class="btn btn-primary" type="button">Оформити замовлення</button></a>
+                </div>
+            </div>
+        {% endif %}
+
+    </div>
+</div>
+{% endblock %}

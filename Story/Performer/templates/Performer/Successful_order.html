@@ -1,5 +1,26 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1 class="title">thank</h1>
+    <div class="successes-content-wrapper">
+        <h1 class="title">Успішне оформлення замовлення</h1>
+        <div class="successes-content">
+
+            <h2 class="title" style="width: 100%; margin-bottom: 30px;">Дякуємо, що обрали саме наш магазин.</h2>
+
+            {% if informational_message %}
+                <h5 style="width: 600px; margin: auto; color: #686868;">{{ informational_message }}</h5>
+            {% else %}
+
+                <p style="width: 600px; margin: auto; color: #686868;">Найближчим часом ваше замовлення буде опрацьовано
+                 та відправлено за вказаною вами в замовленні адресою: {% if shipping_address %} {{ shipping_address }} на ім'я {{ payee_name }} {% endif %}</p>
+
+                <h4 style="color: #ff9ed1; margin-left: 30px; margin-top: 30px; margin-bottom: 30px;">Дякуємо, що обрали наш магазин "Al dente"</h4>
+
+                <h6 style="color: #686868;">Якщо у Вас є зауваження до роботи сайту або побажання які б нам допомогли б стати кращими
+                Напишіть нам: gmail@gmail.com
+                Подзвоніть нам: +380 000 000 000</h6>
+
+            {% endif %}
+        </div>
+    </div>
 {% endblock %}

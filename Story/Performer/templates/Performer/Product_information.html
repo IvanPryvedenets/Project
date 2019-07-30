@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="product-info-content">
+        <h1 class="title">{{ product.title }}</h1>
+
+        <div class="product-info-img-wrapper">
+            <img src="{{ product.image.url }}">
+        </div>
+
+        <div class="product-info-description">
+
+            <h2 class="title">Опис</h2>
+
+            <p>{{ product.description }}</p>
+
+            <div class="weight"><span>Маса:</span> {{ product.weight }}</div>
+
+            <h6 class="brand"><span>Бренд:</span> {{ product.brand }}</h6>
+
+
+            <div class="line"></div>
+
+            <div class="product-info-stock">
+                {{ product.stock }}
+            </div>
+
+            <div class="product-info-price">
+                Ціна: {{ product.price }} грн {% if product.old_price > 1 %}<span><strike>{{ product.old_price }} грн</strike></span>{% endif %}
+            </div>
+
+            <div class="throw-in-basket">
+                <form class="add-product-to-basket" method="POST" action="{% url 'JqueryWorker' %}">{% csrf_token %}
+                    <input id="product-info-number" class="form-control" type="number" min="1" value="1">
+                    <button id="btn-primary" class="btn btn-primary"
+                            data-product_id="{{ product.id }}"
+                            data-product_image="{{ product.image.url }}"
+                            data-product_title="{{ product.title }}"
+                            data-product_price="{{ product.price }}"
+                    >В корзину</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="comments-left">
+            <h3 class="title">Відгуки користувачів</h3>
+            {% if comments %}
+
+                {% for comment in comments %}
+                    <div class="comment">
+                        <span class="user_name">{{ comment.user_name }}</span>
+
+                        <p>{{ comment.message }}</p>
+
+                        {% load i18n %}
+
+                        {% language 'uk' %}
+                            <span class="date_pub">{{ comment.date_pub}}</span>
+                        {% endlanguage %}
+                    </div>
+                {% endfor %}
+
+            {% else %}
+                <h6 class="title">
+                    Покищо немає відгуків
+                </h6>
+            {% endif %}
+
+
+        </div>
+
+        <div class="comments-forms">
+            <h3 class="title">Лишіть Ваш відгук</h3>
+
+            <form method="post">{% csrf_token %}
+                <label>Ваше ім'я</label>
+                {{ form.user_name }}
+                <br>
+
+                <label>Ваш Email</label>
+                {{ form.user_email }}
+                <br>
+
+                <label>Ваше повідомлення</label>
+                {{ form.message }}
+                <br>
+                <button class="btn btn-primary">Лишити відгук</button>
+            </form>
+
+        </div>
+
+    </div>
+{% endblock %}

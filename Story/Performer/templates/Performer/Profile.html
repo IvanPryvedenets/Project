@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <div class="profile-content-wrapper">
+        <h1 class="title">Ваш профіль</h1>
+        <div class="profile-content">
+            <h2 class="title">{{ user.get_full_name }}</h2>
+            <div class="profile-forms">
+                <form class="profile-form" method="POST">{% csrf_token %}
+                    {{ form.as_p }}
+                    <button class="btn btn-primary" type="submit">Змінити</button>
+                </form>
+            </div>
+            <br>
+            <a href="{% url 'Logout_user_url' %}">Вийти</a>
+            <span>Використовується як логін</span>
+        </div>
+
+        <div class="order-content">
+            <h1 class="title">Ваші замовлення</h1>
+            {% for order in orders %}
+
+                <div class="order-boxes">
+                    {% load i18n %}
+                    {% language 'uk' %}
+                        <div class="order-box">
+                            <!--<input value="0">-->
+                            <img class="product-arrow" name="0" src="{% static 'img/arrow.jpg' %}">
+                            <span>№ замовлення: </span> <label>{{ order.id }}</label>
+                            <span>Замовник: </span> <label>{{ order.buyer_name }} {{ order.buyer_lastname }}</label>
+                            <span>Сума: </span> <label>{{ order.total_price }}</label>
+                            <span>Статус: </span> <label>{{ order.order_status }}</label>
+                            <label>{{ order.order_date }}</label>
+                        </div>
+                    {% endlanguage %}
+
+
+                    <div class="purchased-product-content">
+                        {% for product in products %}
+                            {% if product.order == order %}
+                                <div class="purchased-product-box">
+                                    <img class="purchased-product-image" src="{{ product.image }}">
+                                    <h6 class="title">{{ product.title }}</h6>
+                                    <div class="purchased-product-price">Ціна: {{ product.price }}</div>
+                                    <div class="purchased-product-number">Кількість: {{ product.number }}</div>
+                                    <div class="purchased-product-total_price">{{ product.total_price }}</div>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+
+
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
+
+

@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+    <head>
+
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+        <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+        <title>Project</title>
+
+    </head>
+
+    <header>
+        <div class="user-place">
+
+            {% if user.is_authenticated %}
+                <span>Привіт</span><a href="{% url 'User_profile_url' %}">{{ user.get_full_name }}</a>
+            {% else %}
+                <span>Увійти</span>
+                <div class="user-login-box">
+                    <h4 class="title">Вхід користувача</h4>
+                    <form class="user-login-form" method="POST" action="{% url 'Login_user_url' %}">{% csrf_token %}
+                        {% if error %}
+                            <div class="alert alert-danger">{{ error }}</div>
+                        {% endif %}
+                        {{ user_login_form.as_p }}
+                        <button class="btn btn-primary" type="submit">Увійти</button>
+                    </form>
+                </div>
+            {% endif %}
+
+        </div>
+
+        <div class="menu">
+
+            <div class="info-links">
+                <a href="#">Оплата та доставка</a>
+                <a href="#">Контакти</a>
+            </div>
+
+            <a class="main-link" href="{% url 'Home_page_url' %}">Al dente</a>
+
+            <div class="search">
+                <form id="search-form" method="get" action="{% url 'Home_page_url' %}" >
+                    <input name="search_input" type="search" placeholder="Пошук..">
+                    <input type="image" src="{% static 'img/search1.png' %}">
+                </form>
+            </div>
+
+            <div class="basket-wrapper">
+                <a class="basket-button" href="#">Кошик</a>
+                {% if baskets %}
+                    <div class="product-basket-number-wrapper">
+                        <span class="product-number">{{ sum_of_products }}</span>
+                    </div>
+                {% endif %}
+
+                <div class="cart">
+                    <form class="cart-form" method="POST" action="{% url 'JqueryWorker' %}">{% csrf_token %}
+                        <div class="selected-product-container">
+
+                        {% if baskets %}
+                            {% for basket in baskets %}
+
+                                    <div class="selected-product">
+                                        <span class="delete-selected-product" data-product_id="{{ basket.id_product }}">&#215;</span>
+                                        <img class="selected-product-image" src="{{ basket.image }}">
+                                        <a class="title" href="{{ basket.product.get_absolute_url }}"><h6>{{ basket.title }}</h6></a>
+                                        <div class="selected-product-price-info">
+                                            <span>{{ basket.price }} грн</span>
+                                            <span>&#215;</span>
+                                            <span class="selected-product-number">{{ basket.number }}</span>
+                                        </div>
+                                    </div>
+
+                            {% endfor %}
+
+                        {% else %}
+                            <h6 class="title" style="position: relative; width: 100%; margin: 5px 0 5px 0; text-align: center; top: 0; left: 0;">Кошик порожній</h6>
+                        {% endif %}
+
+                        </div>
+                    </form>
+
+
+                    {% if baskets %}
+
+                        <div class="cart-total-price">
+                            <span>Загалом: {{ sum_of_price }}</span>
+                        </div>
+
+                        <div class="cart-buttons">
+                            <a href="{% url 'Cart_url' %}"><button class="btn btn-primary" type="button">Переглянути корзину</button></a>
+                            <a href="{% url 'Checkout_url' %}"><button class="btn btn-primary" type="button">Оформити замовлення</button></a>
+                        </div>
+                    {% endif %}
+
+
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+        <nav class="navbar navbar-expand-lg navbar-light" id="drop-menu">
+
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                <ul class="navbar-nav">
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Dropdown link
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <a class="dropdown-item" href="#">Action</a>
+                            <a class="dropdown-item" href="#">Another action</a>
+                            <a class="dropdown-item" href="#">Something else here</a>
+                        </div>
+                    </li>
+
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Dropdown link
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <a class="dropdown-item" href="#">Action</a>
+                            <a class="dropdown-item" href="#">Another action</a>
+                            <a class="dropdown-item" href="#">Something else here</a>
+                        </div>
+                    </li>
+
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Dropdown link
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <a class="dropdown-item" href="#">Action</a>
+                            <a class="dropdown-item" href="#">Another action</a>
+                            <a class="dropdown-item" href="#">Something else here</a>
+                        </div>
+                    </li>
+
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Dropdown link
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <a class="dropdown-item" href="#">Action</a>
+                            <a class="dropdown-item" href="#">Another action</a>
+                            <a class="dropdown-item" href="#">Something else here</a>
+                        </div>
+                    </li>
+
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Dropdown link
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <a class="dropdown-item" href="#">Action</a>
+                            <a class="dropdown-item" href="#">Another action</a>
+                            <a class="dropdown-item" href="#">Something else here</a>
+                        </div>
+                    </li>
+
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Dropdown link
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <a class="dropdown-item" href="#">Action</a>
+                            <a class="dropdown-item" href="#">Another action</a>
+                            <a class="dropdown-item" href="#">Something else here</a>
+                        </div>
+                    </li>
+
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Dropdown link
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <a class="dropdown-item" href="#">Action</a>
+                            <a class="dropdown-item" href="#">Another action</a>
+                            <a class="dropdown-item" href="#">Something else here</a>
+                        </div>
+                    </li>
+
+                </ul>
+            </div>
+
+        </nav>
+    </header>
+
+    <body>
+        {% block content %}
+        {% endblock %}
+
+        <!--ajax не існує в слім версії-->
+        <!--<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>-->
+        <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+        <!--МАСКА ІНПУТУ-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.10/jquery.mask.js"></script>
+
+        <script src="{% static 'js/jquery.js' %}"></script>
+
+    </body>
+
+    <footer>
+        <div class="footer-contetn">
+            <div class="info-links">
+                <a href="#">Оплата та доставка</a>
+                <a href="#">Контакти</a>
+            </div>
+        </div>
+    </footer>
+
+</html>
