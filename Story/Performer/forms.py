@@ -120,3 +120,22 @@ class UserLoginForm(forms.Form):
     username.widget.attrs.update({'class': 'form-control', 'placeholder': "Ваш телефон", 'data-mask': '+38(000)000-00-00'})
     password.widget.attrs.update({'class': 'form-control', 'placeholder': "Ваш пароль"})
 
+
+class EmailForm(forms.Form):
+
+    fields = ['email']
+
+    email = forms.EmailField(label='Ваш Email', max_length=30)
+
+    email.widget.attrs.update({'class': 'form-control'})
+
+
+class ChangePasswordForm(forms.Form):
+
+    fields = ['password_1', 'password_2']
+
+    password_1 = forms.CharField(widget=forms.PasswordInput, label='Введіть пароль', required=True, max_length=20, min_length=7)
+    password_2 = forms.CharField(widget=forms.PasswordInput, label='Підтвердьте пароль', required=True, max_length=20, min_length=7)
+
+    password_1.widget.attrs.update({'class': 'form-control'})
+    password_2.widget.attrs.update({'class': 'form-control'})

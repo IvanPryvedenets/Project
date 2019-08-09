@@ -18,6 +18,8 @@ def context_processor(request):
         sum_of_products += basket.number
         sum_of_price += basket.total_price
         sum_of_weight += basket.product.weight
+        if basket.number > 1:
+            sum_of_weight = sum_of_weight * basket.number
 
     user_login_form = UserLoginForm()
 

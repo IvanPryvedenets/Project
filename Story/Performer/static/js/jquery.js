@@ -246,7 +246,6 @@ $(document).ready(function(){
 ////       оновлюється кількість продуктів в корзині
 //        $('.selected-product-price-info').children('.selected-product-number').text(product_number)
 
-
         data = {}
 
         data['update'] = 'update'
@@ -283,6 +282,7 @@ $(document).ready(function(){
     })
 
 
+//  Перевірка збігу полів у формі для паролів на сторінці чекаута
     $(document).on('click', '#checkout-submit', function(e){
         var password_1 = $(this).parent('.checkout-form').find('.user-form').children('p').children("[name='password_1']").val()
 
@@ -294,7 +294,20 @@ $(document).ready(function(){
         }
     })
 
+//  Перевірка збігу полів в формі зміни паролю
+    $(document).on('submit', '.change-pass-form', function(e){
+        var password_1 = $(this).children('p').children("[name='password_1']").val()
 
+        var password_2 = $(this).children('p').children("[name='password_2']").val()
+
+        if (password_1 !== password_2){
+            e.preventDefault()
+            alert('Паролі в двох полях не збігаються. Повторіть спробу.')
+        }
+    })
+
+
+//  Випадіння блоку з замовленими продуктами
     $('.product-arrow').click(function(){
         var name = parseInt($(this).attr('name'))
 

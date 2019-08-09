@@ -29,6 +29,7 @@
                         {% endif %}
                         {{ user_login_form.as_p }}
                         <button class="btn btn-primary" type="submit">Увійти</button>
+                        <a href="{% url 'Forgot_password_url' %}">Забули пароль?</a>
                     </form>
                 </div>
             {% endif %}

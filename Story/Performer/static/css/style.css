@@ -2,7 +2,6 @@ html, body {
     padding: 0;
     margin: 0;
     width: 100%;
-    height: 100%;
 }
 
 header {
@@ -42,17 +41,17 @@ header {
 }
 
 .user-login-box {
-    width: 350px;
-    padding: 10px;
-    float: left;
-    position: relative;
-    top: 25px;
-    right: 50px;
     background: white;
     border 1px solid silver;
     border-radius: 10px;
     box-shadow: 0 0 7px rgba(0, 0, 0, 0.1);
     display: none;
+    float: left;
+    padding: 10px;
+    position: relative;
+    right: 50px;
+    top: 20px;
+    width: 350px;
     z-index: 11;
 }
 
@@ -61,8 +60,14 @@ header {
 }
 
 .user-login-box button {
-    top: 0;
     left: 0;
+    top: 0;
+}
+
+.user-login-box a {
+    float: right;
+    position: relative;
+    top: 10px;
 }
 
 .user-login-form {
@@ -617,12 +622,32 @@ input[type='search']:hover {
 }
 
 
+.similar-products {
+    background: #f9f9f9;
+    box-shadow: 0 0 7px rgba(0, 0, 0, 0.1);
+    float: left;
+    overflow-x: scroll;
+    margin-bottom: 100px;
+    width: 100%;
+}
 
+.similar-products-container {
+    height: 440px;
+    padding: 20px 10px;
+    float: left;
+}
 
+.skating_rink {
+    display: flex;
+}
+
+.skating_rink .card {
+    float: left;
+    margin: 0 10px;
+}
 /*----------------------------------------------------------CART STILES--------------------------------------------*/
 .cart-content-wrapper {
     width: 100%;
-    height: 100%;
     float: left;
     margin-bottom: 50px;
 }
@@ -638,7 +663,7 @@ input[type='search']:hover {
     margin: 0 3.5%;
     background: #f9f9f9;
     box-shadow: 0 0 7px rgba(0, 0, 0, 0.1);
-    height: auto;
+    min-height: 330px;
     position: relative;
     float: left;
     top: 30px;
@@ -756,7 +781,6 @@ input[type='search']:hover {
 /*-----------------------------------------------------STYLES FOR CHECKOUT PAGE--------------------------------*/
 .checkout-content-wrapper {
     width: 100%;
-    height: 100%;
     float: left;
 }
 
@@ -766,38 +790,38 @@ input[type='search']:hover {
 }
 
 .checkout-content {
-    font-family: 'Rubik Light', sans-serif;
-    width: 80%;
-    left: 10%;
     background: #f9f9f9;
     box-shadow: 0 0 7px rgba(0, 0, 0, 0.1);
+    font-family: 'Rubik Light', sans-serif;
+    float: left;
+    left: 10%;
+    padding: 20px;
     position: relative;
     top: 30px;
-    padding: 20px;
-    float: left;
+    width: 80%;
 }
 
 .checkout-form {
+    color: #898989;
+    float: left;
+    margin: 30px 0;
     position: relative;
     top: -20px;
-    color: #898989;
-    margin: 30px 0;
-    float: left;
 }
 
 .checkout-form .title {
-    position: relative;
     left: 8px;
-    top: 0px;
     margin: 0;
+    position: relative;
+    top: 0px;
 }
 
 .checkout-forms {
-    height: 100%;
-    width: 300px;
     float: left;
+    height: 100%;
     position: relative;
     top: 12px;
+    width: 300px;
 }
 
 .checkout-forms .title {
@@ -979,72 +1003,72 @@ input[type='search']:hover {
 
 /*-----------------------------------------------------STYLES FOR PROFILE PAGE--------------------------------*/
 .profile-content-wrapper {
-    width: 100%;
-    height: 100%;
     font-family: 'Rubik Light', sans-serif;
+    width: 100%;
 }
 
 .profile-content-wrapper .title {
     position: relative;
     top: 20px;
+    width: 95%;
 }
 
 .profile-content {
-    float: left;
-    width: 80%;
-    position: relative;
-    right: 10%;
-    top: 88px;
     background: #f9f9f9;
     box-shadow: 0 0 7px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-}
-
-.profile-content .title {
-    top: 0;
+    float: left;
+    height: 495px;
+    left: 10%;
+    margin-top: 30px;
+    padding: 0 10px;
+    position: relative;
+    width: 80%;
 }
 
 .profile-content span {
-    position: absolute;
-    bottom: 203px;
-    left: 380px;
+    bottom: 193px;
+    color: #898989;
     font-size: 14px;
-    color: #898989;
+    left: 395px;
+    position: absolute;
 }
 
-.profile-form {
-    width: 350px;
-    position: relative;
-    top: 10px;
+.profile-content p {
     color: #898989;
+
 }
 
-.profile-form button {
-    top: 5px;
+.profile-content .btn-primary {
+    top: 0;
     left: 0;
 }
 
-.order-content {
-    float: left;
-    width: 90%;
+.profile-content a {
     position: relative;
-    left: 5%;
-    top: 125px;
-    background: #f9f9f9;
-    box-shadow: 0 0 7px rgba(0, 0, 0, 0.1);
-    padding: 20px;
+    top: 413px;
+    right: 335px;
+
 }
 
-
-
-.order-box {
+.profile-forms {
     float: left;
-    width: 90%;
-    margin: 30px 0 10px 0;
+    position: relative;
+    top: 20px;
+    left: 20px;
+    width: 35%;
+
+}
+
+/*---------------------------блок з замовленими продуктами-----------------------------------*/
+.order-box {
+    background: #f9f9f9;
+    border: 1px solid #eaeaea;
+    float: left;
+    left: 5%;
+    margin: 20px 0 10px 0;
     padding: 10px;
     position: relative;
-    left: 5%;
-    border: 1px solid #eaeaea;
+    width: 90%;
 }
 
 .order-box span {
@@ -1113,6 +1137,7 @@ input[type='search']:hover {
 
 .purchased-product-total_price {
     float: right;
+    width: 250px;
 }
 
 .product-arrow {
@@ -1136,8 +1161,49 @@ input[type='search']:hover {
 }
 
 
+/*--------------------------------------------Стилі для сторінки надсилання повідомлення зі зміною паролю на пошту--------------*/
+.forgot-pass-content, .change-pass-content {
+    background: #f9f9f9;
+    box-shadow: 0 0 7px rgba(0, 0, 0, 0.1);
+    font-family: 'Rubik Light', sans-serif;
+    float: left;
+    min-height: 300px;
+    left: 10%;
+    padding: 20px;
+    position: relative;
+    top: 50px;
+    width: 80%;
+}
+
+.forgot-pass-form, .change-pass-form {
+    width: 50%;
+    margin: auto;
+}
+
+.change-pass-form {
+    width: 40%;
+}
+
+.change-pass-form button{
+    left: 0;
+    top: 0;
+}
+
+.forgot-pass-form button{
+    left: 0;
+    top: 0;
+}
+
+
+/*--------------------------------------------Стилі для сторінки зміною паролю-------------------------------------*/
+
+
+
 footer {
-    width: 100%;
-    height: 150px;
     background: #08152b;
+    float: left;
+    height: 150px;
+    position: relative;
+    top: 100px;
+    width: 100%;
 }

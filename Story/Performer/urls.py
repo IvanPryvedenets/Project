@@ -10,6 +10,9 @@ urlpatterns = [
     path('user_profile/', Profile.as_view(), name='User_profile_url'),
     path('login_user/', login_user, name='Login_user_url'),
     path('logout_user/', logout_user, name='Logout_user_url'),
+    path('forgot_password/', ForgotPassword.as_view(), name='Forgot_password_url'),
+    path('forgot_password_send/', forgot_password_send, name='Forgot_password_send_url'),
+    path('change_password/<str:link>/', ChangePassword.as_view(), name='Change_password_url'),
 
     path('jqueryworker/', func, name='JqueryWorker')
 ]

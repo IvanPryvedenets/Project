@@ -8,6 +8,8 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.core.mail import send_mail
 from django.conf import settings
 from django.template.loader import render_to_string
+from django.core.signing import Signer
+import random
 
 from .forms import *
 from .models import *
@@ -36,7 +38,15 @@ class HomePage(View):
 
             return render(request, 'Performer/Search_results.html', context={'products': products})
         else:
-            products = Product.objects.all()
+            all_products = Product.objects.all()
+
+            products = []
+            while all_products:
+                products.append(all_products[random.randint(1, len(all_products)-1)])
+
+                if len(products) == 8:
+                    break
+
             return render(request, 'Performer/Home_page.html', context={'products': products})
 
 
@@ -46,6 +56,7 @@ class ProductInformation(View):
     def get(self, request, slug):
 
         product = Product.objects.get(slug=slug)
+        products = Product.objects.filter(brand=product.brand)
 
         if request.user.is_authenticated:
             field_data = {
@@ -57,7 +68,8 @@ class ProductInformation(View):
             form = CommentForm()
 
         comments = Comment.objects.filter(product=product)
-        return render(request, 'Performer/Product_information.html', context={'product': product, 'form': form, 'comments': comments})
+
+        return render(request, 'Performer/Product_information.html', context={'product': product, 'products': products, 'form': form, 'comments': comments})
 
     def post(self, request, slug):
         product = Product.objects.get(slug=slug)
@@ -116,7 +128,9 @@ class Checkout(View):
         except IndexError:
             return redirect('/cart/')
 
-        return render(request, 'Performer/Checkout.html', context={'form': form, 'product_baskets': product_baskets, 'password_form': password_form})
+        return render(request, 'Performer/Checkout.html', context={'form': form,
+                                                                   'product_baskets': product_baskets,
+                                                                   'password_form': password_form})
 
     def post(self, request):
 
@@ -340,6 +354,91 @@ def logout_user(request):
     return redirect('/')
 
 
+class ForgotPassword(View):
+    def get(self, request):
+
+        form = EmailForm()
+
+        return render(request, 'Performer/Forgot_password.html', context={'form': form})
+
+    def post(self, request):
+
+        form = EmailForm(request.POST)
+
+        if request.method == 'POST' and form.is_valid():
+            email = request.POST.get('email')
+            try:
+                user = User.objects.get(email=email)
+            except ObjectDoesNotExist:
+                error = 'Вказоно невірний Email'
+                return render(request, 'Performer/Forgot_password.html', context={'form': form, 'error': error})
+
+            signer = Signer()
+
+            global script_email
+
+            script_email = signer.sign(email)
+
+            link = 'http://127.0.0.1:8000/change_password/' + script_email.split(':')[1] + '/'
+
+            subject = 'Зміна паролю'
+
+            html_message = render_to_string(
+                'Performer/Forgot_password_message.html', {'link': link}
+            )
+
+            send_mail(subject, 'message', settings.EMAIL_HOST_USER, [email], html_message=html_message, fail_silently=False)
+
+            return redirect('/forgot_password_send/')
+
+
+def forgot_password_send(request):
+    return render(request, 'Performer/Forgot_password_send.html')
+
+
+class ChangePassword(View):
+    def get(self, request, link):
+
+        signer = Signer()
+
+        global email
+
+        email = signer.unsign(script_email)
+
+        audit = signer.sign(email).split(':')[1]
+
+        if link != audit:
+            message = 'Паге нот фаунд'
+
+            form = EmailForm()
+
+            return render(request, 'Performer/Forgot_password.html', context={'form': form, 'message': message})
+
+        form = ChangePasswordForm()
+
+        return render(request, 'Performer/Change_password_page.html', context={'form': form})
+
+    def post(self, request, link):
+
+        form = ChangePasswordForm(request.POST)
+
+        if request.method == 'POST' and form.is_valid():
+
+            user = User.objects.get(email=email)
+
+            new_password = form.cleaned_data['password_2']
+
+            user.set_password(new_password)
+
+            user.save()
+
+            user = authenticate(request, username=user.username, password=new_password)
+
+            login(request, user)
+
+            return redirect('/user_profile/')
+
+
 # Робота з ajax та json
 def func(request):
     if request.method == 'POST':
@@ -348,7 +447,6 @@ def func(request):
         session_key = request.session.session_key
 
         if request.POST.get('delete'):
-
             product_id = request.POST.get('product_id')
             basket = Basket.objects.get(id_product=product_id)
             basket.delete()
@@ -362,7 +460,6 @@ def func(request):
             basket.save()
 
         elif request.POST.get('create'):
-
             product_id = request.POST.get('product_id')
             product_image = request.POST.get('product_image')
             product_title = request.POST.get('product_title')
