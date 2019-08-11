@@ -2,8 +2,11 @@
 
 {% block content %}
     <div class="content-block">
-        <div class="home-page-product-container">
-            {% include 'Performer/Card.html' %}
+        <h1 class="title" style="position: relative; top: 20px;">Результати за пошуком: "{{ search_query }}"</h1>
+        <div class="home-page-product-container" style="position: relative; top: 30px; min-height: 300px;">
+
+                {% include 'Performer/Card.html' %}
+
         </div>
     </div>
 {% endblock %}

@@ -14,7 +14,7 @@ class AdminProduct(admin.ModelAdmin):
 
     list_display = ('id', 'category', 'title', 'description', 'brand', 'price', 'old_price', 'stock',)
 
-    search_fields = ['id', 'category__field', 'brand']
+    search_fields = ['id', 'title', 'category__field', 'brand']
 
     fieldsets = (
         ('Product information', {

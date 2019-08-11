@@ -4,6 +4,10 @@ html, body {
     width: 100%;
 }
 
+.content-block {
+    min-height: 500px;
+}
+
 header {
     width: 100%;
     height: 100px;
@@ -327,23 +331,41 @@ input[type='search']:hover {
 
 /*----------------------------------------------------------ВИПАДАЮЧЕ МЕНЮ-------------------------------------------*/
 #drop-menu {
+    background: #fff67f;
+    height: 40px;
+    padding: 5px 0;
     position: relative;
     top: 70px;
-    height: 40px;
-    background: #fff67f;
-    padding: 5px 0;
     z-index: 5;
     width: 100%;
 }
 
-#drop-menu ul {
+.navbar-nav {
     width: 100%;
 }
 
-#drop-menu ul li {
+.nav-item.dropdown {
+    text-align: center;
     width: 100%;
+}
+
+.nav-link.dropdown {
+    background: #fff67f;
+}
+
+.nav-item .dropdown a {
     text-align: center;
 }
+
+.nav-item.dropdown:last-child .dropdown-menu {
+    right: 0;
+}
+
+.dropdown-item {
+    text-align: center;
+}
+
+
 
 
 /*-----------------------------------------------------------------СТИЛІ ДЛЯ СТОРІНКИ HOME-------------------------------*/
@@ -377,6 +399,34 @@ input[type='search']:hover {
     position: relative;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(270px, 1fr))
+}
+
+
+
+/*--------------------------------------------------------СТИЛІ СТОРІНКИ ОПЛАТИ ТА ДОСТАВКИ------------------------------------*/
+.payment-info-container {
+    background: #f9f9f9;
+    box-shadow: 0 0 7px rgba(0, 0, 0, 0.1);
+    float: left;
+    height: auto;
+    left: 3%;
+    position: relative;
+    top: 30px;
+    width: 94%;
+}
+
+.payment-info-container .title {
+    width: 100%;
+}
+
+.payment-info h4 {
+    float: left;
+}
+
+.payment-info p {
+    left: 5%;
+    position: relative;
+    width: 600px;
 }
 
 /*--------------------------------------------------------СТИЛІ КАРТОЧКИ ПРОДУКТУ------------------------------------*/
@@ -621,12 +671,12 @@ input[type='search']:hover {
     margin: 10px 0;
 }
 
-
+/*----------------------------------------------------------Блок зі схожими продуктами--------------------------------------------*/
 .similar-products {
     background: #f9f9f9;
     box-shadow: 0 0 7px rgba(0, 0, 0, 0.1);
     float: left;
-    overflow-x: scroll;
+    overflow-x: auto;
     margin-bottom: 100px;
     width: 100%;
 }

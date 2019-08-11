@@ -21,22 +21,20 @@ class HomePage(View):
     def get(self, request):
 
         session_key = request.session.session_key
-        print(session_key)
+
         if session_key is None:
             session_key = request.session.cycle_key()
 
-        print(session_key)
-
         search_query = request.GET.get('search_input', '')
 
-        # Annotate - виконує пошук полів
+        # Annotate - виконує пошук за полями
         if search_query:
             products = Product.objects.annotate(search=SearchVector('title') +
                                                        SearchVector('description') +
                                                        SearchVector('brand') +
                                                        SearchVector('category__field'),).filter(search=search_query)
 
-            return render(request, 'Performer/Search_results.html', context={'products': products})
+            return render(request, 'Performer/Search_results.html', context={'products': products, 'search_query': search_query})
         else:
             all_products = Product.objects.all()
 
@@ -48,6 +46,14 @@ class HomePage(View):
                     break
 
             return render(request, 'Performer/Home_page.html', context={'products': products})
+
+
+def payment_delivery(request):
+    return render(request, 'Performer/Payment_delivery_page.html')
+
+
+def contacts_page(request):
+    return render(request, 'Performer/Contacts_page.html')
 
 
 # Сторінка з інфою продукту
