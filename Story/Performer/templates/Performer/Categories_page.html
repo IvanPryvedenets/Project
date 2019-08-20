@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="content-block">
+    <h1 class="title">{{ title }}</h1>
+    <div class="category-block">
+         {% for product in products %}
+            {% include 'Performer/Card.html' %}
+         {% endfor %}
+    </div>
+
+    {% if paginated %}
+        <nav class="pagination-box" aria-label="...">
+            <ul class="pagination">
+                <li class="page-item {% if not prev %} disabled {% endif %}">
+                    <a class="page-link" href="{{ prev }}" tabindex="-1" aria-disabled="true">Previous</a>
+                </li>
+
+                {% for number in products.paginator.page_range %}
+
+                    {% if products.number == number %}
+                        <li class="page-item active" aria-current="page">
+                            <a class="page-link" href="?page={{ number }}">{{ number }}<span class="sr-only">(current)</span></a>
+                        </li>
+                    {% elif number > products.number|add:-3 and number < products.number|add:3 %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ number }}">{{ number }}</a>
+                        </li>
+                    {% endif %}
+
+                {% endfor %}
+
+                <li class="page-item {% if not next %} disabled {% endif %}">
+                    <a class="page-link" href="{{ next }}">Next</a>
+                </li>
+            </ul>
+        </nav>
+    {% endif %}
+
+</div>
+{% endblock %}

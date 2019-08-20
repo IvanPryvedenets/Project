@@ -23,7 +23,7 @@ class Product(models.Model):
     description = models.TextField(max_length=500)
     brand = models.CharField(max_length=50)
     weight = models.PositiveIntegerField()
-    old_price = models.DecimalField(max_digits=5, decimal_places=2)
+    old_price = models.DecimalField(default=0.00, max_digits=5, decimal_places=2)
     price = models.DecimalField(max_digits=5, decimal_places=2)
     slug = models.CharField(max_length=100, unique=True, blank=True)
     stock = models.CharField(max_length=25, default='В наявності')
@@ -35,7 +35,10 @@ class Product(models.Model):
         return '{}'.format(self.title)
 
     def save(self, *args, **kwargs):
-        alpha = {'a': 'a', 'б': 'b', 'ц': 'c', 'д': 'd', 'е': 'e', 'ф': 'f', 'г': 'g', 'х': 'h', 'і': 'i', 'й': 'j', 'к': 'k', 'л': 'l', 'м': 'm', 'н': 'n', 'п': 'p', 'о': 'o', 'р': 'r', 'с': 's', 'т': 't', 'у': 'u', 'в': 'v', 'и': 'y', 'з': 'z', 'щ': 'sch', 'ш': 'ch', 'я': 'yi', 'ь': '', 'ж': 'sh', ' ': '-'}
+        alpha = {
+            'a': 'a', 'б': 'b', 'ц': 'c', 'д': 'd', 'е': 'e', 'ф': 'f', 'г': 'g', 'х': 'h', 'і': 'i', 'й': 'j', 'к': 'k',
+            'л': 'l', 'м': 'm', 'н': 'n', 'п': 'p', 'о': 'o', 'р': 'r', 'с': 's', 'т': 't', 'у': 'u', 'в': 'v', 'и': 'y',
+            'з': 'z', 'щ': 'sch', 'ш': 'ch', 'я': 'yi', 'ь': '', 'ж': 'sh', ' ': '-'}
 
         invalid_slug = str(randint(0, 1000)) + '-' + str(self.title) + '-' + str(self.brand) + '-' + str(self.weight).lower()
 

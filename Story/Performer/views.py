@@ -1,18 +1,21 @@
-from django.views import View
-from django.shortcuts import render, redirect
-from django.contrib.postgres.search import SearchVector
-from django.http import JsonResponse
-from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User
+from django.http import JsonResponse
 from django.core.exceptions import ObjectDoesNotExist
-from django.core.mail import send_mail
-from django.conf import settings
-from django.template.loader import render_to_string
+from django.core.paginator import Paginator
+from django.contrib.postgres.search import SearchVector
 from django.core.signing import Signer
-import random
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
+from django.shortcuts import render, redirect
+from django.views import View
+
+from django.conf import settings
 
 from .forms import *
 from .models import *
+
+import random
 
 
 # Головна сторінка
@@ -48,12 +51,57 @@ class HomePage(View):
             return render(request, 'Performer/Home_page.html', context={'products': products})
 
 
-def payment_delivery(request):
-    return render(request, 'Performer/Payment_delivery_page.html')
+# Категорії продуктів
+def categories(request, category):
+    products_list = Product.objects.filter(category__field=category)
+
+    paginator = Paginator(products_list, 8)
+
+    page_number = request.GET.get('page', 1)
+
+    products = paginator.get_page(page_number)
+
+    paginated = products.has_other_pages()
+
+    if products.has_previous():
+        prev = '?page={}'.format(products.previous_page_number())
+    else:
+        prev = ''
+
+    if products.has_next():
+        next = '?page={}'.format(products.next_page_number())
+    else:
+        next = ''
+
+    title = ' '
+
+    category_dict = {
+        'chocolate': 'Шоколад',
+        'sweets': 'Солодощі',
+        'chocolate-cream': 'Шоколадні пасти',
+        }
+
+    for key, value in category_dict.items():
+        if category == key:
+            title = title.replace(' ', value)
+
+    return render(request, 'Performer/Categories_page.html', context={
+                                                                'products': products,
+                                                                'title': title,
+                                                                'paginated': paginated,
+                                                                'prev': prev,
+                                                                'next': next
+                                                            })
 
 
+# кКонтактна інформація
 def contacts_page(request):
     return render(request, 'Performer/Contacts_page.html')
+
+
+# Інформація про оплату та доставку
+def payment_delivery(request):
+    return render(request, 'Performer/Payment_delivery_page.html')
 
 
 # Сторінка з інфою продукту
@@ -303,6 +351,7 @@ def successful_order(request):
     return render(request, 'Performer/Successful_order.html')
 
 
+# Профіль користувача
 class Profile(View):
     def get(self, request):
 
@@ -337,6 +386,7 @@ class Profile(View):
                 return redirect('/user_profile/')
 
 
+# Вхід користувача
 def login_user(request):
     if request.method == 'POST':
         form = UserLoginForm(request.POST)
@@ -355,11 +405,13 @@ def login_user(request):
                 return render(request, 'Performer/Home_page.html', context={'products': products, 'error': error})
 
 
+# Вихід коричтувача
 def logout_user(request):
     logout(request)
     return redirect('/')
 
 
+# Якщо користувач забув пароль
 class ForgotPassword(View):
     def get(self, request):
 
@@ -398,10 +450,12 @@ class ForgotPassword(View):
             return redirect('/forgot_password_send/')
 
 
+# Після відправлення повідомлення з посиланням для зміни паролю
 def forgot_password_send(request):
     return render(request, 'Performer/Forgot_password_send.html')
 
 
+# Зміна паролю
 class ChangePassword(View):
     def get(self, request, link):
 
@@ -452,11 +506,13 @@ def func(request):
 
         session_key = request.session.session_key
 
+        # Видалення товару з корзини
         if request.POST.get('delete'):
             product_id = request.POST.get('product_id')
             basket = Basket.objects.get(id_product=product_id)
             basket.delete()
 
+        # Зміна кількості продуктів в корзині
         elif request.POST.get('update'):
             print('urdate')
             product_id = request.POST.get('product_id')
@@ -465,6 +521,7 @@ def func(request):
             basket.number = int(product_number)
             basket.save()
 
+        # Додавання товару в корзину
         elif request.POST.get('create'):
             product_id = request.POST.get('product_id')
             product_image = request.POST.get('product_image')
@@ -484,6 +541,7 @@ def func(request):
                 defaults={'number': int(product_number)},
             )
 
+            # Якщо продукт вже є зміни його кількість
             if create is False:
                 basket.number += int(product_number)
                 basket.save()
@@ -492,14 +550,13 @@ def func(request):
         sum_of_products = 0
         sum_of_price = 0
 
+        # Отримай всі товари
         for product in Basket.objects.filter(session_key=session_key):
 
             product_dict = dict()
 
             sum_of_products += product.number
             sum_of_price += product.total_price
-
-            print(sum_of_products)
 
             product_dict['product_id'] = product.id_product
             product_dict['image'] = str(product.image)
@@ -516,14 +573,9 @@ def func(request):
             else:
                 product_dict['action'] = 'create_delete'
 
-            print(product_dict)
-
             product_list.append(product_dict)
 
-            print(product_list)
-
         data = {key: value for (key, value) in zip(range(0, len(product_list)), product_list)}
-        print(data)
 
         return JsonResponse(data)
 

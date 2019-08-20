@@ -6,6 +6,8 @@ html, body {
 
 .content-block {
     min-height: 500px;
+    position: relative;
+    top: 30px;
 }
 
 header {
@@ -401,6 +403,21 @@ input[type='search']:hover {
     grid-template-columns: repeat(auto-fit, minmax(270px, 1fr))
 }
 
+
+/*--------------------------------------------------------СТИЛІ СТОРІНКИ КАТЕГОРІЇ ПРОДУКТІВ------------------------------------*/
+.category-block {
+    font-family: 'Rubik Light', sans-serif;
+    padding-top: 20px;
+    width: 94%;
+    margin: auto;
+    margin-bottom: 100px;
+    height: auto;
+    background: #f9f9f9;
+    box-shadow: 0 0 7px rgba(0, 0, 0, 0.1);
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(270px, 1fr))
+}
 
 
 /*--------------------------------------------------------СТИЛІ СТОРІНКИ ОПЛАТИ ТА ДОСТАВКИ------------------------------------*/
@@ -1245,8 +1262,17 @@ input[type='search']:hover {
 }
 
 
-/*--------------------------------------------Стилі для сторінки зміною паролю-------------------------------------*/
+.pagination-box {
+    text-align: center;
+    bottom: 30px;
+    position: relative;
 
+}
+
+.pagination-box ul {
+    width: 250px;;
+    margin: auto;
+}
 
 
 footer {
