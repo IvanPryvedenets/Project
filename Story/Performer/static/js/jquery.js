@@ -66,7 +66,7 @@ $(document).ready(function(){
                         })
 
 
-    //                якщо в реквесті є клбч зі значенням delete або create
+    //                якщо в реквесті є ключ зі значенням delete або create
                     } else if (data['0']['action'] == 'create_delete') {
                         console.log('create_delete')
 
@@ -137,6 +137,8 @@ $(document).ready(function(){
 
 //                Якщо словник порожній очисти кількість продуктів, кнопки, загальну ціну та встав 'корзина порожня'
                 } else {
+                    $('.checkout-baskets-content-wrapper').remove()
+                    $('#checkout-submit').remove()
                     $('.product-basket-number-wrapper').remove()
                     $('.cart-buttons').remove()
                     $('.cart-total-price').remove()
@@ -196,7 +198,7 @@ $(document).ready(function(){
 
     });
 
-    //Видалення продуктів з корзини
+//      Видалення продуктів з корзини
     $(document).on('click', '.delete-selected-product', function () {
 
         var form = $('.cart-form')

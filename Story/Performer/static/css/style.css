@@ -96,14 +96,15 @@ header {
 }
 
 .main-link {
-    font-size: 30px;
-    width: 40%;
-    text-align: center;
-    float: left;
-    font-family: 'Ubuntu', sans-serif;
-    position: relative;
-    top: 4px;
     color: white;
+    font-size: 30px;
+    font-family: 'Ubuntu', sans-serif;
+    float: left;
+    position: relative;
+    text-align: center;
+    top: 4%;
+    width: 50%;
+
 }
 
 .main-link:hover {
@@ -113,11 +114,11 @@ header {
 
 .info-links {
     float: left;
+    left: 10px;
+    position: relative;
     position: relative;
     top: 12px;
-    width: 30%;
-    position: relative;
-    left: 10px;
+    width: 25%;
 }
 
 .info-links a {
@@ -334,13 +335,15 @@ input[type='search']:hover {
 /*----------------------------------------------------------ВИПАДАЮЧЕ МЕНЮ-------------------------------------------*/
 #drop-menu {
     background: #fff67f;
-    height: 40px;
-    padding: 5px 0;
+    min-height: 40px;
+    padding: 0;
     position: relative;
     top: 70px;
     z-index: 5;
     width: 100%;
 }
+
+
 
 .navbar-nav {
     width: 100%;
@@ -353,20 +356,18 @@ input[type='search']:hover {
 
 .nav-link.dropdown {
     background: #fff67f;
-}
-
-.nav-item .dropdown a {
     text-align: center;
-}
-
-.nav-item.dropdown:last-child .dropdown-menu {
-    right: 0;
 }
 
 .dropdown-item {
     text-align: center;
 }
 
+@media screen and (max-width: 992px) {
+    .nav-link.dropdown {
+        border-top: 1px solid silver;
+    }
+}
 
 
 
@@ -1243,8 +1244,8 @@ input[type='search']:hover {
 }
 
 .forgot-pass-form, .change-pass-form {
-    width: 50%;
     margin: auto;
+    width: 50%;
 }
 
 .change-pass-form {
@@ -1263,15 +1264,15 @@ input[type='search']:hover {
 
 
 .pagination-box {
-    text-align: center;
     bottom: 30px;
     position: relative;
+    text-align: center;
 
 }
 
 .pagination-box ul {
-    width: 250px;;
     margin: auto;
+    width: 250px;;
 }
 
 
@@ -1280,6 +1281,6 @@ footer {
     float: left;
     height: 150px;
     position: relative;
-    top: 100px;
+    top: 150px;
     width: 100%;
 }
