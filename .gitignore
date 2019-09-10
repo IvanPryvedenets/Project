@@ -1,10 +1,10 @@
 *.pyc
 .gitignore
 __pycache__
-project-venv
+.project-venv
 db.postgresql
 .DS_Store
-migrations.py
+Story/Performer/migrations/
 __init__.py
-Story/Story/
-settings.py
+Story/Story/settings.py
+
