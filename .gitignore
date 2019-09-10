@@ -4,7 +4,7 @@ __pycache__
 project-venv
 db.postgresql
 .DS_Store
-migrations
-__init__
+migrations.py
+__init__.py
 Story/Story/
-settings
+settings.py
