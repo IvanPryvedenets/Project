@@ -7,3 +7,4 @@ db.postgresql
 migrations
 __init__
 Story/Story/
+settings
