@@ -93,7 +93,9 @@
         <div class="similar-products">
             <div class="similar-products-container">
                 <div class="skating_rink">
-                    {% include 'Performer/Card.html' %}
+                    {% for product in products %}
+                        {% include 'Performer/Card.html' %}
+                    {% endfor %}
                 </div>
             </div>
 

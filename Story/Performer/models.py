@@ -40,7 +40,8 @@ class Product(models.Model):
             'л': 'l', 'м': 'm', 'н': 'n', 'п': 'p', 'о': 'o', 'р': 'r', 'с': 's', 'т': 't', 'у': 'u', 'в': 'v', 'и': 'y',
             'з': 'z', 'щ': 'sch', 'ш': 'ch', 'я': 'yi', 'ь': '', 'ж': 'sh', ' ': '-'}
 
-        invalid_slug = str(randint(0, 1000)) + '-' + str(self.title) + '-' + str(self.brand) + '-' + str(self.weight).lower()
+        invalid_slug = str(randint(0, 1000)) + '-' + str(self.title) + '-' + str(self.brand) + '-' + str(self.weight)
+        invalid_slug = invalid_slug.lower()
 
         for key, value in alpha.items():
             for i in invalid_slug:
